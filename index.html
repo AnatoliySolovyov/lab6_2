@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Дата та Час</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 20px;
+        }
+        #datetime {
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+        #daysRemaining {
+            font-size: 20px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div id="datetime"></div>
+    <div id="daysRemaining"></div>
+
+    <script>
+        function formatDate(date) {
+            const daysOfWeek = ['Неділя', 'Понеділок', 'Вівторок', 'Середа', 'Четвер', 'П’ятниця', 'Субота'];
+            const months = ['Січень', 'Лютий', 'Березень', 'Квітень', 'Травень', 'Червень', 'Липень', 'Серпень', 'Вересень', 'Жовтень', 'Листопад', 'Грудень'];
+
+            const dayOfWeek = daysOfWeek[date.getDay()];
+            const day = String(date.getDate()).padStart(2, '0');
+            const month = months[date.getMonth()];
+            const year = date.getFullYear();
+
+            return `${dayOfWeek}, ${day} ${month} ${year}`;
+        }
+
+        function formatTime(date) {
+            const hours = String(date.getHours()).padStart(2, '0');
+            const minutes = String(date.getMinutes()).padStart(2, '0');
+            const seconds = String(date.getSeconds()).padStart(2, '0');
+            return `${hours}:${minutes}:${seconds}`;
+        }
+
+        function updateDateTime() {
+            const now = new Date();
+            const dateString = formatDate(now);
+            const timeString = formatTime(now);
+
+            document.getElementById('datetime').innerText = `${dateString} \n ${timeString}`;
+        }
+
+        function calculateDaysRemaining(targetDate) {
+            const now = new Date();
+            const timeDifference = targetDate - now;
+            const daysRemaining = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
+            return daysRemaining;
+        }
+
+        const targetDate = new Date('2024-12-02');
+        const daysRemaining = calculateDaysRemaining(targetDate);
+        document.getElementById('daysRemaining').innerText = `Кількість днів до 2 грудня 2024: ${daysRemaining}`;
+
+        // Оновлюємо дату та час кожну секунду
+        setInterval(updateDateTime, 1000);
+        updateDateTime(); // Ініціалізація
+    </script>
+</body>
+</html>
